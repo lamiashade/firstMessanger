@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "933966187365-ijgr8f8njomlqivu1ldi6b39rf2u9fip.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lamia.firstmessanger",
+            "certificate_hash": "4e6e995664a7839b2569927b213bd0c7d558b39f"
+          }
+        },
+        {
           "client_id": "933966187365-9p1nqstt8n1088o38p578cosif4ntrkq.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "933966187365-9p1nqstt8n1088o38p578cosif4ntrkq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

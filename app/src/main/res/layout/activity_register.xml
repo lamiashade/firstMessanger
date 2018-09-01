@@ -7,20 +7,20 @@
     android:background="@android:color/holo_orange_light"
     tools:context=".RegisterActivity">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="166dp"
-        android:layout_height="138dp"
-        android:layout_marginBottom="8dp"
+    <Button
+        android:id="@+id/user_login_pic"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:src="@android:color/darker_gray"
-        app:civ_border_color="#FFFFFF"
-        app:civ_border_width="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/name_editText_register"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/reg_picbtn_round"
+        android:text="Select a picture"
+        android:textColor="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,7 +32,7 @@
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/rounded_reg_text"
         android:ems="10"
         android:hint="User Name"
@@ -41,7 +41,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/user_login_pic" />
 
     <EditText
         android:id="@+id/email_editText_register"
@@ -75,34 +75,41 @@
         android:id="@+id/register_btn_main"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/login_bt_rounded"
         android:text="Register"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toTopOf="@+id/already_have_account_textView"
         app:layout_constraintEnd_toEndOf="@+id/passworder_editText_register"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/passworder_editText_register"
-        app:layout_constraintTop_toBottomOf="@+id/passworder_editText_register"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/passworder_editText_register" />
 
     <TextView
         android:id="@+id/already_have_account_textView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="76dp"
+        android:layout_height="18dp"
+        android:layout_marginBottom="56dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="Already Have an Account?"
         android:textColor="@android:color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/register_btn_main"
         app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="@+id/register_btn_main"
-        app:layout_constraintTop_toBottomOf="@+id/register_btn_main"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="@+id/register_btn_main" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_profile_picture"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toBottomOf="@+id/user_login_pic"
+        app:layout_constraintEnd_toEndOf="@+id/user_login_pic"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/user_login_pic"
+        app:layout_constraintTop_toTopOf="@+id/user_login_pic" />
 </android.support.constraint.ConstraintLayout>
