@@ -160,6 +160,7 @@ class RegisterActivity : AppCompatActivity() {
             Toast.makeText(this, "Successfully created an account",Toast.LENGTH_LONG).show()
 
             val loginIntent = Intent(this,LoginActivity::class.java)
+            loginIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(loginIntent)
         }
     }
