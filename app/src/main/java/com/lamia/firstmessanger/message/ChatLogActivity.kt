@@ -20,30 +20,26 @@ import kotlinx.android.synthetic.main.activity_chat_log.*
 class ChatLogActivity : AppCompatActivity() {
 
     val Tag = "ChatLogActivity"
+    val adapter = GroupAdapter<ViewHolder>()
+    var toUser:User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_log)
 
-        val user = intent.getParcelableExtra<User>("USER_KEY")
-
-        supportActionBar?.title = user.userName
-
-        val adapter = GroupAdapter<ViewHolder>()
-
-        adapter.add(ChatToItem("meow"))
-        adapter.add(ChatFromItem("You cant tell me Meow. Wtf are you own"))
-        adapter.add(ChatToItem("Cats are the most sacred species alive"))
-        adapter.add(ChatFromItem("DOgs over cats forever"))
-
         chatlog_recylcler_view.adapter = adapter
+
+        toUser = intent.getParcelableExtra<User>("USER_KEY")
+
+        supportActionBar?.title = toUser?.userName
+
+        //retrieves messages from other user
+        listenForMessages()
 
         chatlog_btn.setOnClickListener {
             Log.d(Tag,"Subitmitted chat text...")
             performSendMessage()
         }
-
-
     }
 
     private fun listenForMessages(){
@@ -63,9 +59,20 @@ class ChatLogActivity : AppCompatActivity() {
             }
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-
                 val chatmesg  = p0.getValue(ChatMessage::class.java)
-                Log.d(Tag,chatmesg?.text)
+
+                if(chatmesg != null){
+                    Log.d(Tag,chatmesg.text)
+
+                    if(chatmesg.fromId == FirebaseAuth.getInstance().uid){
+                        val currentUser = MessageActivity.currentUser ?: return
+                        adapter.add(ChatFromItem(chatmesg.text,currentUser))
+                    }else{
+                        val toUser = intent.getParcelableExtra<User>("USER_KEY")
+                        adapter.add(ChatToItem(chatmesg.text,toUser))
+
+                    }
+                }
             }
 
             override fun onChildRemoved(p0: DataSnapshot) {
@@ -80,8 +87,8 @@ class ChatLogActivity : AppCompatActivity() {
         val text = chatlog_enter_txt.text.toString()
 
         val fromId = FirebaseAuth.getInstance().uid
-        val user = intent.getParcelableExtra<User>("USER_KEY")
-        val toId = user.uid
+        toUser = intent.getParcelableExtra<User>("USER_KEY")
+        val toId = toUser?.uid
 
         if (fromId == null) return
 
