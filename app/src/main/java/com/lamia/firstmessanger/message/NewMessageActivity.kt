@@ -1,5 +1,6 @@
 package com.lamia.firstmessanger.message
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -14,8 +15,8 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_new_message.*
 
-class NewMessage : AppCompatActivity() {
-    val Tag = "NewMessage Activity"
+class NewMessageActivity : AppCompatActivity() {
+    val Tag = "NewMessageActivity Activity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +26,8 @@ class NewMessage : AppCompatActivity() {
 
         fetchUsers()
     }
+
+    val USER_KEY = "USER_KEY"
 
     private fun fetchUsers(){
         val ref = FirebaseDatabase.getInstance().getReference("/users")
@@ -41,14 +44,22 @@ class NewMessage : AppCompatActivity() {
                        adapter.add(UserItem(user))
                    }
                }
+
+                adapter.setOnItemClickListener{ item,view->
+
+                    val userItem = item as UserItem
+                    val intent = Intent(view.context,ChatLogActivity::class.java)
+                    intent.putExtra(USER_KEY, userItem.user)
+                    startActivity(intent)
+                    finish()
+                }
+
                 new_msg_recycler_view.adapter = adapter
             }
 
             override fun onCancelled(p0: DatabaseError) {
 
             }
-
         })
-
     }
 }

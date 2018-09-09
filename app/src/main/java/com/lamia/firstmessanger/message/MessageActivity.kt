@@ -41,7 +41,7 @@ class MessageActivity : AppCompatActivity() {
         when(item?.itemId){
             R.id.menu_new_msg ->{
 
-                val newMsgIntent = Intent(this, NewMessage::class.java)
+                val newMsgIntent = Intent(this, NewMessageActivity::class.java)
                 startActivity(newMsgIntent)
 
             }
