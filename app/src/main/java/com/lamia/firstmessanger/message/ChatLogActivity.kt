@@ -43,7 +43,9 @@ class ChatLogActivity : AppCompatActivity() {
     }
 
     private fun listenForMessages(){
-        val ref = FirebaseDatabase.getInstance().getReference("/messages")
+        val fromId = FirebaseAuth.getInstance().uid
+        val toId = toUser?.uid
+        val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId")
 
         ref.addChildEventListener(object: ChildEventListener{
             override fun onCancelled(p0: DatabaseError) {
@@ -87,17 +89,28 @@ class ChatLogActivity : AppCompatActivity() {
         val text = chatlog_enter_txt.text.toString()
 
         val fromId = FirebaseAuth.getInstance().uid
-        toUser = intent.getParcelableExtra<User>("USER_KEY")
-        val toId = toUser?.uid
+        val user = intent.getParcelableExtra<User>("USER_KEY")
+        val toId = user?.uid
 
         if (fromId == null) return
 
-        val ref = FirebaseDatabase.getInstance().getReference("/messages").push()
+        val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
+        val toRef = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
 
         val chatmsg = ChatMessage(ref.key!!,text,fromId,toId!!,System.currentTimeMillis()/1000)
         ref.setValue(chatmsg)
                 .addOnSuccessListener {
                     Log.d(Tag,"Successfully saved chat message: ${ref.key}")
+                    chatlog_enter_txt.text.clear()
+                    chatlog_recylcler_view.scrollToPosition(adapter.itemCount - 1)
+
                 }
+
+        toRef.setValue(chatmsg)
+                .addOnSuccessListener {
+                    Log.d(Tag,"Successfully saved chat message: ${toRef.key}")
+                }
+
+
     }
 }
