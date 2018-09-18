@@ -94,9 +94,13 @@ class ChatLogActivity : AppCompatActivity() {
 
         if (fromId == null) return
 
+        //Capturing messaging data from current the user and storing it into firebase
         val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
+
+        //Taking data from current user and sending it to corresponding friend.
         val toRef = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
 
+        //Creates a chat message object that stores user attributes
         val chatmsg = ChatMessage(ref.key!!,text,fromId,toId!!,System.currentTimeMillis()/1000)
         ref.setValue(chatmsg)
                 .addOnSuccessListener {
@@ -110,6 +114,13 @@ class ChatLogActivity : AppCompatActivity() {
                 .addOnSuccessListener {
                     Log.d(Tag,"Successfully saved chat message: ${toRef.key}")
                 }
+
+        //Stores real time messages in the firebase data base from current user to a friend
+        val latestMessageRef = FirebaseDatabase.getInstance().getReference("/latest-message/$fromId/$toId")
+        latestMessageRef.setValue(chatmsg)
+
+        val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/latest-message/$toId/$fromId")
+        latestMessageToRef.setValue(chatmsg)
 
 
     }
