@@ -18,6 +18,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_message.*
 
+
 class MessageActivity : AppCompatActivity() {
     val Tag = "MessageActivity"
 
@@ -34,11 +35,22 @@ class MessageActivity : AppCompatActivity() {
         messages_recycler_view.adapter = adapter
         messages_recycler_view.addItemDecoration(DividerItemDecoration(this,DividerItemDecoration.VERTICAL))
 
+        // Set click listeneer on the adapter to make message cells clickable
+        adapter.setOnItemClickListener{item, view ->
+            Log.d(Tag, "clicked on $item")
+            val intent = Intent(this, ChatLogActivity::class.java)
+            val row = item as MessageRow
+            intent.putExtra(NewMessageActivity.USER_KEY, row.chatPartner)
+            startActivity(intent)
+
+        }
+
         mAuth = FirebaseAuth.getInstance()
 
+        listenForLatestMessages()
         loginCheck()
         fetchCurrentUser()
-        listenForLatestMessages()
+
 
         }
 
@@ -55,7 +67,7 @@ class MessageActivity : AppCompatActivity() {
 
     private fun listenForLatestMessages(){
         val fromId = FirebaseAuth.getInstance().uid
-        val ref = FirebaseDatabase.getInstance().getReference("/lates-message/$fromId")
+        val ref = FirebaseDatabase.getInstance().getReference("/latest-message/$fromId")
         ref.addChildEventListener(object:ChildEventListener{
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
                 val chatMsg = p0.getValue(ChatMessage::class.java) ?: return

@@ -29,7 +29,7 @@ class ChatLogActivity : AppCompatActivity() {
 
         chatlog_recylcler_view.adapter = adapter
 
-        toUser = intent.getParcelableExtra<User>("USER_KEY")
+        toUser = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
 
         supportActionBar?.title = toUser?.userName
 
@@ -37,7 +37,7 @@ class ChatLogActivity : AppCompatActivity() {
         listenForMessages()
 
         chatlog_btn.setOnClickListener {
-            Log.d(Tag,"Subitmitted chat text...")
+            Log.d(Tag,"Submitted chat text...")
             performSendMessage()
         }
     }
@@ -89,7 +89,7 @@ class ChatLogActivity : AppCompatActivity() {
         val text = chatlog_enter_txt.text.toString()
 
         val fromId = FirebaseAuth.getInstance().uid
-        val user = intent.getParcelableExtra<User>("USER_KEY")
+        val user = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
         val toId = user?.uid
 
         if (fromId == null) return

@@ -16,7 +16,11 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_new_message.*
 
 class NewMessageActivity : AppCompatActivity() {
-    val Tag = "NewMessageActivity Activity"
+    val Tag = "NewMessageActivity"
+
+    companion object {
+        val USER_KEY = "USER_KEY"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +30,6 @@ class NewMessageActivity : AppCompatActivity() {
 
         fetchUsers()
     }
-
-    val USER_KEY = "USER_KEY"
 
     private fun fetchUsers(){
         val ref = FirebaseDatabase.getInstance().getReference("/users")

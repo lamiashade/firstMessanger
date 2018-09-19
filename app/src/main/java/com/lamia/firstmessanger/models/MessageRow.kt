@@ -9,11 +9,13 @@ import com.lamia.firstmessanger.R
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.activity_message.view.*
 import kotlinx.android.synthetic.main.message_row.view.*
 
 
 class MessageRow(val chatMsg:ChatMessage): Item<ViewHolder>(){
+
+    var chatPartner:User? = null
+
     override fun getLayout(): Int {
         return R.layout.message_row
     }
@@ -35,11 +37,11 @@ class MessageRow(val chatMsg:ChatMessage): Item<ViewHolder>(){
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                val user = p0.getValue(User::class.java)
-                viewHolder.itemView.message_row_user_name.text = user?.userName
+                chatPartner = p0.getValue(User::class.java)
+                viewHolder.itemView.message_row_user_name.text = chatPartner?.userName
 
                 val userImg = viewHolder.itemView.message_row_user_pic
-                Picasso.get().load(user?.profilePic).into(userImg)
+                Picasso.get().load(chatPartner?.profilePic).into(userImg)
             }
 
 
@@ -47,7 +49,7 @@ class MessageRow(val chatMsg:ChatMessage): Item<ViewHolder>(){
 
 
 
-        viewHolder.itemView.message_row_user_name.text = chatMsg.text
+        viewHolder.itemView.message_row_user_txt.text = chatMsg.text
     }
 
 }
